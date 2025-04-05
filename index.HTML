@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菏泽学院</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: "CaoShu";
+            src: url("fonts/caoshu.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: 'LiSong Pro';
+            src: url('path/to/your/lisongpro.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 导航栏渐变色 */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(180deg, 
+                rgba(255, 228, 225, 0.9) 0%,    /* 浅粉红色 */
+                rgba(176, 224, 230, 0.7) 100%   /* 粉蓝色 */
+            );
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            padding-top: 6px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 20px;
+            font-family: 'LiSong Pro', cursive;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #e74c3c;
+        }
+
+        .menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #e74c3c;
+            transition: width 0.3s ease;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* 首页大图 */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.8s ease;
+        }
+
+        .slide {
+            width: 33.333%;
+            height: 100%;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide:nth-child(1) {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/innovation.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide:nth-child(2) {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/ARM2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide:nth-child(3) {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/code.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-family: "楷体", "STKaiti", serif;
+            font-size: 80px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            letter-spacing: 15px;
+            color: #FFE4C4;
+        }
+
+        .hero-content p {
+            font-family: "CaoShu", "楷体", serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            letter-spacing: 5px;
+            color: #F0F8FF;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 3;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev {
+            left: 40px;
+        }
+
+        .next {
+            right: 40px;
+        }
+
+        .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .slider-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 视频卡片样式 */
+        .section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card {
+            flex: 1 1 250px;
+            max-width: 350px;
+            height: auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .card.visible {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-container:hover video {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-content p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: linear-gradient(0deg, 
+                rgba(70, 130, 180, 0.95) 0%,
+                rgba(135, 206, 235, 0.8) 100%
+            );
+            color: white;
+            padding: 0px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0 20px;
+        }
+
+        .footer-section {
+            flex: 1;
+            padding: 5px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #FFE4C4;
+        }
+
+        .footer-section p {
+            margin: 2px 0;
+        }
+
+        /* 添加物联网工程文字样式 */
+        .department-name {
+            text-decoration: none;  /* 去掉下划线 */
+            color: #333;  /* 设置颜色 */
+            font-family: "CaoShu", "楷体", serif;
+            font-size: 24px;
+            transition: color 0.3s ease, transform 0.3s ease;  /* 添加过渡效果 */
+        }
+
+        .department-name:hover {
+            color: #e74c3c;  /* 悬停时改变颜色 */
+            transform: scale(1.1);  /* 悬停时放大 */
+        }
+
+        /* 二级logo样式 */
+        .secondary-logo {
+            height: 40px;
+            margin-left: 10px;
+            border-left: 1px solid rgba(0,0,0,0.1);
+            padding-left: 10px;
+        }
+
+        /* 部门名称样式 */
+        .department-name {
+            font-family: "CaoShu", "楷体", serif;
+            font-size: 32px;
+            background: linear-gradient(45deg, #4A6FA5, #E66465);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 0 5px;
+        }
+
+        /* 了解更按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            border: none;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 50px;
+                letter-spacing: 10px;
+            }
+            
+            .hero-content p {
+                font-size: 24px;
+                letter-spacing: 3px;
+            }
+        }
+
+        /* 添加进度条样式 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #4A6FA5, #E66465);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* 修改二维码样式 */
+        .qrcode-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10px;
+        }
+
+        .qrcode-section h3 {
+            margin-bottom: 5px;
+        }
+
+        .qrcode {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            filter: brightness(1.1);
+            transition: transform 0.3s ease;
+            margin-top: 5px;
+        }
+
+        .qrcode:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        /* 调整二维码section的高度以容纳绝对定位的二维码 */
+        .footer-section.qrcode-section {
+            min-height: 150px;
+            position: relative;
+        }
+
+        /* 调整二维码section的标题样式 */
+        .qrcode-section h3 {
+            margin-bottom: 5px;
+        }
+
+        /* 调整 footer-content 的布局 */
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-bottom {
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0; /* 从透明开 */
+            }
+            to {
+                opacity: 1; /* 变为完全不透明 */
+            }
+        }
+
+        body {
+            animation: fadeIn 1s ease-in; /* 应用淡入动画，持续1秒 */
+        }
+
+        .qrcode-section img {
+            margin-top: -10px; /* 向上移动二维码 */
+        }
+
+        /* 响应式调整，隐藏导航栏 */
+        @media (max-width: 768px) {
+            nav {
+                display: none; /* 隐藏导航栏 */
+            }
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 优化期末复习模块的显示效果 */
+        #review {
+            background-color: #f9f9f9; /* 背景颜色 */
+            padding: 40px 20px; /* 内边距 */
+            border-radius: 10px; /* 圆角 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        }
+
+        .section-title {
+            font-size: 36px; /* 标题字体大小 */
+            margin-bottom: 20px; /* 标题下边距 */
+            text-align: center; /* 标题居中 */
+            color: #333; /* 标题颜色 */
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 卡片过渡效果 */
+            border: 1px solid #ddd; /* 边框 */
+            border-radius: 8px; /* 圆角 */
+            overflow: hidden; /* 溢出隐藏 */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* 悬停时放大 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 悬停时阴影效果 */
+        }
+
+        .card-content {
+            padding: 20px; /* 卡片内容内边距 */
+            text-align: center; /* 内容居中 */
+        }
+
+        .card-content h3 {
+            font-size: 24px; /* 卡片标题字体大小 */
+            margin-bottom: 10px; /* 卡片标题下边距 */
+            color: #e74c3c; /* 卡片标题颜色 */
+        }
+
+        .card-content p {
+            font-size: 16px; /* 卡片内容字体大小 */
+            color: #666; /* 卡片内容颜色 */
+        }
+
+        .link {
+            color: #e74c3c; /* �������颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            transition: color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease; /* 添加过渡效果 */
+        }
+
+        .link:hover {
+            color: #c0392b; /* 悬停颜色变化 */
+            transform: scale(1.1); /* 悬停时放大效果 */
+            font-weight: bold; /* 悬停时加粗 */
+        }
+
+        /* 修目录式 */
+        .directory {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            z-index: 1000;
+            max-height: 200px; /* 限制最大高度 */
+            overflow-y: auto; /* 内容过多时可滚动 */
+            transition: all 0.3s ease;
+        }
+
+        /* 修改目录标题和关闭按钮的器样式 */
+        .directory .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-right: 5px; /* 添加右侧内边距 */
+        }
+
+        /* 修改目录标题样式 */
+        .directory h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* 修改关闭按钮样式 */
+        #close-directory {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 24px; /* 增大字体大小 */
+            padding: 0;
+            margin: 0;
+            line-height: 1;
+            transition: color 0.3s ease;
+            font-weight: bold; /* 加粗 */
+        }
+
+        #close-directory:hover {
+            color: #c0392b;
+        }
+
+        /* 修改目录列表样式 */
+        .directory ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .directory li {
+            margin: 8px 0;
+        }
+
+        .directory .link {
+            color: rgb(135, 206, 250);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 3px 0;
+        }
+
+        .directory .link:hover {
+            color: #e74c3c;
+        }
+
+        /* 提示文字样式 */
+        .directory p {
+            font-size: 12px;
+            color: #666;
+            margin: 8px 0;
+            font-style: italic;
+            line-height: 1.2;
+        }
+
+        /* 确保目录在悬浮窗之上 */
+        .directory {
+            z-index: 1001;
+        }
+
+        /* 在style标签内添加悬浮窗样式 */
+        .floating-window {
+            position: fixed;
+            right: 20px;
+            top: 55%; /* 从45%调整到55% */
+            transform: translateY(-50%) translateX(0);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #e1e1e1;
+            display: block;
+            cursor: default;
+            user-select: none;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .floating-window .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .floating-window .close-btn:hover {
+            color: #e74c3c;
+        }
+
+        .floating-window .floating-window-content {
+            margin-top: 10px;
+            color: #333;
+            font-family: "楷体", "KaiTi", serif;
+            font-size: 18px;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-window.hidden .floating-window-content {
+            opacity: 0;
+        }
+
+        /* 在现有的悬浮窗样式后添加第二个悬浮窗的样式 */
+        .floating-window-2 {
+            position: fixed;
+            right: 20px;
+            top: 75%; /* 从65%调整到75% */
+            transform: translateY(-50%) translateX(0);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #e1e1e1;
+            display: block;
+            cursor: default;
+            user-select: none;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .floating-window-2 .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .floating-window-2 .close-btn:hover {
+            color: #e74c3c;
+        }
+
+        .floating-window-2 .floating-window-content {
+            margin-top: 10px;
+            color: #333;
+            font-family: "楷体", "KaiTi", serif;
+            font-size: 18px;
+        }
+
+        /* 为悬浮窗内容添加统一的间距 */
+        .floating-window .floating-window-content,
+        .floating-window-2 .floating-window-content {
+            margin: 3px 0; /* 内容也加上下间距 */
+        }
+
+        /* 添加第三个悬浮窗的样式 */
+        .floating-window-3 {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px 15px 15px 15px;  /* 增加内边距适应更大的字体 */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 1px solid #e1e1e1;
+            display: block;
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 优化关闭按钮位置 */
+        .floating-window-3 .close-btn {
+            pointer-events: auto;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;  /* 稍微调小字体 */
+            padding: 5px;
+            line-height: 1;
+            transition: all 0.3s ease;
+            opacity: 0.7;  /* 添加透明度 */
+        }
+
+        .floating-window-3 .close-btn:hover {
+            opacity: 1;
+            color: #e74c3c;
+        }
+
+        /* 优化内容布局 */
+        .floating-window-3 .floating-window-content {
+            color: #333;
+            font-family: "楷体", "KaiTi", serif;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;  /* 文字居中 */
+            margin-top: 3px;  /* 进一步减小顶部边距 */
+            letter-spacing: 1px;  /* 增加字间距 */
+        }
+
+        .floating-window-3:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.98);
+            border-color: #ff6b6b;
+        }
+
+        /* 添加第四个悬浮窗的样式 */
+        .floating-window-4 {
+            position: fixed;
+            right: 20px;
+            top: 80%;
+            background: linear-gradient(135deg, #fff6e5, #ffedcc);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 120px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 2px solid #ffd700;
+            display: block;
+            animation: moveAcross 6s linear infinite;
+            cursor: move;
+            user-select: none;
+        }
+
+        .floating-window-4 .close-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .floating-window-4:hover .close-btn {
+            opacity: 1;
+        }
+
+        .floating-window-4 .floating-window-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px; /* 最小间距 */
+        }
+
+        .floating-window-4 .ad-text,
+        .floating-window-4 .rent-text {
+            color: #ff6b6b;
+            font-family: "楷体", "KaiTi", serif;
+            font-size: 40px; /* 增大字体到40px */
+            font-weight: 900;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
+            line-height: 1; /* 确保文字紧凑 */
+            letter-spacing: 2px;
+        }
+
+        @keyframes moveAcross {
+            0% {
+                top: 80%;
+                right: 5%;
+            }
+            25% {
+                top: 10px; /* 距离顶部10像素 */
+                right: 5%;
+            }
+            50% {
+                top: 10px; /* 距离顶部10像素 */
+                right: 85%;
+            }
+            75% {
+                top: 80%;
+                right: 85%;
+            }
+            100% {
+                top: 80%;
+                right: 5%;
+            }
+        }
+
+        .floating-window-4:hover {
+            animation-play-state: paused;
+            transform: scale(1.1) translate(var(--x, 0px), var(--y, 0px)) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        /* 修改悬停特效 */
+        .floating-window:hover,
+        .floating-window-2:hover,
+        .floating-window-3:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.98);
+            border-color: #ff6b6b;
+        }
+
+        /* 第四个悬浮窗特殊悬停效果 */
+        .floating-window-4:hover {
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            background: linear-gradient(135deg, #fff9f0, #fff0dd);
+            border-color: #ff9b6b;
+        }
+
+        /* 悬停时文字效果 */
+        .floating-window:hover .floating-window-content,
+        .floating-window-2:hover .floating-window-content,
+        .floating-window-3:hover .floating-window-content,
+        .floating-window-4:hover .floating-window-content {
+            transform: translateY(-2px);
+            transition: transform 0.3s ease;
+        }
+
+        /* 第四个悬浮窗的文字特效 */
+        .floating-window-4:hover .ad-text,
+        .floating-window-4:hover .rent-text {
+            color: #ff4757;
+            text-shadow: 2px 2px 4px rgba(255, 107, 107, 0.3);
+        }
+
+        /* 添加隐藏状态的样式 */
+        .floating-window.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%) translateX(50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 添加悬停效果 */
+        .floating-window-3:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(231, 76, 60, 0.4);
+        }
+
+        /* 添加第二个悬浮窗的隐藏状态 */
+        .floating-window-2.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%) translateX(50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 在style标签内添加悬浮窗动画样式 */
+        @keyframes floatingWindowAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* 修改悬浮窗的基础样式和动画 */
+        .floating-window,
+        .floating-window-2,
+        .floating-window-3 {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #e1e1e1;
+            display: block;
+            cursor: default !important;
+            pointer-events: auto;
+            touch-action: auto;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 显示状态 */
+        .floating-window.show,
+        .floating-window-2.show,
+        .floating-window-3.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* 隐藏状态 */
+        .floating-window.hidden,
+        .floating-window-2.hidden,
+        .floating-window-3.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        /* 第四个悬浮窗的特殊样式 */
+        .floating-window-4 {
+            position: fixed;
+            right: 20px;
+            top: 80%;
+            background: linear-gradient(135deg, #fff6e5, #ffedcc);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 120px;
+            border: 2px solid #ffd700;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8) rotate(-15deg);
+            transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+        }
+
+        /* 第四个悬浮窗显示状态 */
+        .floating-window-4.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) rotate(0deg);
+            animation: moveAcross 6s linear infinite;
+        }
+
+        /* 修改JavaScript部分 */
+        @keyframes floatingWindowDisappear {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        /* 添加隐藏动画类 */
+        .floating-window.hidden,
+        .floating-window-2.hidden,
+        .floating-window-3.hidden,
+        .floating-window-4.hidden {
+            animation: floatingWindowDisappear 0.4s ease-out forwards;
+        }
+
+        /* 更新悬浮窗的CSS样式 */
+        .floating-window,
+        .floating-window-2,
+        .floating-window-3,
+        .floating-window-4 {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+        }
+
+        .floating-window.show,
+        .floating-window-2.show,
+        .floating-window-3.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .floating-window.hidden,
+        .floating-window-2.hidden,
+        .floating-window-3.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        /* 第四个悬窗的特殊动画 */
+        .floating-window-4.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) rotate(0deg);
+            animation: moveAcross 6s linear infinite;
+        }
+
+        .floating-window-4.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8) rotate(-15deg);
+            animation: none;
+        }
+
+        /* 修改 #review .card 的样式 */
+        #review .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            cursor: default !important;
+        }
+
+        #review .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 统一所有卡片链接的样式 */
+        #review .card .link,
+        #review .card a,
+        #review .directory a {
+            color: #e74c3c;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer !important;
+            position: relative;
+            z-index: 2;
+            transform: scale(1);  /* 添加初始状态 */
+        }
+
+        #review .card .link:hover,
+        #review .card a:hover,
+        #review .directory a:hover {
+            color: #c0392b;
+            transform: scale(1.1);
+            font-weight: bold;
+        }
+
+        /* 统一所有卡片内容的样式 */
+        #review .card p {
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+
+        /* 修改Linux模块的链接样式，使其与其他模块一致 */
+        #review #Linux .link {
+            color: #e74c3c;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        #review #Linux .link:hover {
+            color: #c0392b;
+            background-color: rgba(231, 76, 60, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
+        }
+
+        /* 移除所有可能导致移动光标的样式 */
+        .floating-window,
+        .floating-window-2,
+        .floating-window-3,
+        .floating-window-4 {
+            cursor: move;
+            user-select: none;
+        }
+
+        /* 确保卡片内所有元素都使用默认光标，除了链接 */
+        #review .card * {
+            cursor: default !important;
+        }
+
+        /* 只有链接使用指针光标 */
+        #review .card a,
+        #review .card .link,
+        #review a,
+        #review .link {
+            cursor: pointer !important;
+        }
+
+        /* 修改所有可点击元素的光标样式 */
+        .link, 
+        .btn,
+        a,
+        button,
+        .close-btn,
+        #close-directory {
+            cursor: pointer;
+        }
+
+        /* 确保卡片本身不显示手指光标 */
+        .card {
+            cursor: default !important;  /* 添加 !important 确保优先级 */
+        }
+
+        /* 修改链接内的段落样式 */
+        #review .card a p,
+        #review .card .link p {
+            cursor: pointer !important;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            transform: scale(1);  /* 添加初始状态 */
+        }
+
+        /* 移除可能干扰链接光标的样式 */
+        #review .card {
+            cursor: default !important;
+        }
+
+        /* 确保链接的父元素不会影响光标样式和动画 */
+        #review .card a *,
+        #review .card .link * {
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            transition: all 0.3s ease;
+            transform: scale(1);  /* 添加初始状态 */
+        }
+
+        /* 修改CSS样式 */
+        #review .card .link {
+            color: #e74c3c;
+            text-decoration: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+            cursor: pointer !important;
+            display: inline-block;
+            position: relative;
+            z-index: 10;
+            transform-origin: center;
+            transform: scale(1);
+        }
+
+        #review .card .link:hover {
+            color: #c0392b;
+            transform: scale(1.1);
+            font-weight: bold;
+        }
+
+        /* 修改Linux卡片的HTML结构 */
+        <div class="card" data-aos="fade-up" data-aos-delay="100" id="Linux">
+            <h3>Linux</h3>
+            <p style="line-height: 1.5;">考试时间: 2025-01-09 10:10~12:00;</p>
+            <p style="line-height: 1.5;">考试地点: 9302(多媒体);</p>
+            <p style="line-height: 1.5;">
+                <a href="纯网页/Linux.html" target="_blank" class="link">点击查看Linux期末重点</a>
+            </p>
+        </div>
+
+        /* 移除之前添加的可能冲突的样式 */
+        #review .card a.link {
+            display: block;
+            position: relative;
+            z-index: 10;
+        }
+
+        #review .card a.link p {
+            pointer-events: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #review .card a.link:hover {
+            color: #c0392b;
+            transform: scale(1.1);
+            font-weight: bold;
+        }
+
+        /* 修改第三个悬浮窗的样式 */
+        .floating-window-3 {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px 15px 15px 15px;  /* 增加内边距适应更大的字体 */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            font-size: 16px;
+            line-height: 1.5;
+            border: 1px solid #e1e1e1;
+            display: block;
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 优化悬浮窗内容样式 */
+        .floating-window-3 .floating-window-content {
+            color: #333;
+            font-family: "楷体", "KaiTi", serif;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;  /* 文字居中 */
+            margin-top: 3px;  /* 进一步减小顶部边距 */
+            letter-spacing: 1px;  /* 增加字间距 */
+        }
+
+        /* 优化关闭按钮样式 */
+        .floating-window-3 .close-btn {
+            pointer-events: auto;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;  /* 稍微调小字体 */
+            padding: 5px;
+            line-height: 1;
+            transition: all 0.3s ease;
+            opacity: 0.7;  /* 添加透明度 */
+        }
+
+        .floating-window-3 .close-btn:hover {
+            opacity: 1;
+            color: #e74c3c;
+        }
+
+        /* 当悬浮窗显示时的样式 */
+        .floating-window-3.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .floating-window-3:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.98);
+            border-color: #ff6b6b;
+        }
+
+        /* 当悬浮窗隐藏时完全禁用交互 */
+        .floating-window-3.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%) translateX(-20px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* 确保关闭按钮可以正常工作 */
+        .floating-window-3 .close-btn {
+            pointer-events: auto;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;  /* 稍微调小字体 */
+            padding: 5px;
+            line-height: 1;
+            transition: all 0.3s ease;
+            opacity: 0.7;  /* 添加透明度 */
+        }
+
+        .floating-window-3 .close-btn:hover {
+            opacity: 1;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="logo" height="40">
+                <img src="images/PClogo.png" alt="secondary-logo" class="secondary-logo">
+                <a href="https://jsj.hezeu.edu.cn/" target="_blank" class="department-name">23物联网工程</a>
+            </div>
+            <ul class="menu" style="text-align: center;">
+                <li><a href="#" id="backToTop">首页</a></li>
+                <li><a href="#culture">校园文化</a></li>
+                <li><a href="#activity">校园活动</a></li>
+                <li><a href="#courses">课程学习</a></li>
+                <li><a href="#food">荷园美食</a></li>
+                <li><a href="#seasons">荷园四季</a></li>
+                <li><a href="#review">期末复习</a></li>
+                <li><a href="#footer" id="aboutUs">关于我们</a></li>
+            </ul>
+        </div>
+    </nav>
+<!-- 修改首大图部 -->
+<section class="hero">
+    <div class="slider-wrapper">
+        <div class="slider-track">
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>菏泽学院</h1>
+                    <p>修德笃学 • 求实创新 </p>
+                    <a href="https://www.hezeu.edu.cn/" target="_blank" class="btn">了解更多</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>项目开发</h1>
+                    <p>实践创新 • 引领未来</p>
+                    <a href="https://www.douyin.com/" target="_blank" class="btn">了解更多</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="hero-content">
+                    <h1>代码编写</h1>
+                    <p>学无止境，志在千里</p>
+                    <a href="https://space.bilibili.com/483942191?spm_id_from=333.337.0.0"   target="_blank" class="btn">了解更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="slider-nav">
+            <button class="slider-btn prev">❮</button>
+            <button class="slider-btn next">❯</button>
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="culture" class="section">
+        <h2 class="section-title">校园文化</h2>
+        <div class="card-container">
+            <!-- 视频片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-container">
+                    <video autoplay muted loop playsinline>
+                        <source src="video/mudan.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放。
+                    </video>
+                </div>
+                <div class="card-content">
+                    <h3>牡丹文化</h3>
+                    <p>菏泽是国牡丹之都，学校承牡丹文化精神...</p>
+                </div>
+            </div>
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="images/culture2.jpg" alt="校园文化">
+                <div class="card-content">
+                    <h3>图书馆</h3>
+                    <p>图书馆设计的像迷宫,是同学们玩捉迷藏的好地方</p>
+                </div>
+            </div>
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="images/culture3.jpg" alt="学术流">
+                <div class="card-content">
+                    <h3>元旦晚会</h3>
+                    <p>元旦晚会精彩纷呈，舞蹈表演、互动游戏、庆氛围，欢声笑语不断.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activity" class="section">
+        <h2 class="section-title" data-aos="fade-up">校园活动</h2>
+        <div class="card-container">
+            <!-- 第一个活动卡片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <img src="images/activity1.jpg" alt="社团活动">
+                <div class="card-content">
+                    <h3>社团活动</h3>
+                    <p>丰富多彩的社团活动，展现青春活力...</p>
+                </div>
+            </div>
+            
+            <!-- 第二个活动卡片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="images/activity2.jpg" alt="文化节">
+                <div class="card-content">
+                    <h3>文化节</h3>
+                    <p>展现园文化魅力，传承优传统...</p>
+                </div>
+            </div>
+
+            <!-- 第三个活动片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="images/activity3.jpg" alt="育赛事">
+                <div class="card-content">
+                    <h3>体育赛事</h3>
+                    <p>扣666送孙悟空地狱火皮肤...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程习块 -->
+    <section id="courses" class="section">
+        <h2 class="section-title" data-aos="fade-up">课程学习</h2>
+        <div class="card-container">
+            <!-- 数据结构卡 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <a href="https://www.bilibili.com/video/BV1nJ411V7bd/?spm_id_from=333.337.search-card.all.click" target="_blank">
+                <img src="images/datastructure.jpg" alt="数据结构">
+                </a>
+                <div class="card-content">
+                    <h3>数据结构</h3>
+                    <p>数据结构是李老师授课,内容容包括树,图,链表</p>
+                </div>
+            </div>
+            
+            <!-- ARM课程卡片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <a href="https://www.bilibili.com/video/BV1th411z7sn/?spm_id_from=333.337.search-card.all.click" target="_blank">
+                <img src="images/arm.jpg" alt="ARM课程">
+                </a>
+                <div class="card-content">
+                    <h3>ARM课程</h3>
+                    <p>ARM课程是由张老师讲解,是物联网专业核心专业课。</p>
+                </div>
+            </div>
+
+            <!-- Python课程卡片 -->
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <a href="https://www.bilibili.com/video/BV1cR4y1L7n2/?spm_id_from=333.337.search-card.all.click" target="_blank">
+                <img src="images/python.jpg" alt="Python课程">
+                </a>
+                <div class="card-content">
+                    <h3>Python课程</h3>
+                    <p>Python课程也由张老师讲解,第六章与第七章是期末重点题。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="food" class="section">
+        <h2 class="section-title" data-aos="fade-up">荷园美食</h2>
+        <div class="card-container">
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <img src="images/shuijiao.jpg" alt="美食1">
+                <div class="card-content">
+                    <h3>水饺</h3>
+                    <p>冬至的水饺，香气扑鼻，暖心滋味，是寒冷节日中的一抹温暖。</p>
+                </div>
+            </div>
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="images/caomian.jpg" alt="美食2">
+                <div class="card-content">
+                    <h3>炒面</h3>
+                    <p>锦苑食堂的炒面，面条弹韧,酱香浓郁，简单却充满家的味道。</p>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="images/miantiao.jpg" alt="美食3">
+                <div class="card-content">
+                    <h3>面条</h3>
+                    <p>学食堂的面条，汤底浓郁，面条劲道，简朴却温暖每一位学子的胃。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="seasons" class="section">
+        <h2 class="section-title" data-aos="fade-up">荷园四季</h2>
+        <div class="card-container">
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <img src="images/spring.jpg" alt="春天">
+                <div class="card-content">
+                    <h3>春天</h3>
+                    <p>春天的荷园，万物复苏，花开满园。</p>
+                </div>
+            </div>
+            
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <img src="images/summer.jpg" alt="夏天">
+                <div class="card-content">
+                    <h3>夏天</h3>
+                    <p>夏天的荷园, 绿意盎然，绿树成荫</p>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="300">
+                <img src="images/autumn.jpg" alt="秋天">
+                <div class="card-content">
+                    <h3>秋天</h3>
+                    <p>秋天的荷园，黄金一片，果实累累。</p>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="400">
+                <img src="images/winter.jpg" alt="冬天">
+                <div class="card-content">
+                    <h3>冬天</h3>
+                    <p>冬天的荷园，银装素裹，宁静雅致。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 修改期末复习模块 -->
+    <section id="review" class="section">
+        <h2 class="section-title" data-aos="fade-up">期末复习</h2>
+        <div class="directory" id="directory" style="width: 160px;">
+            <div class="header">
+                <h3 style="color: black;">学习资料</h3>
+                <button id="close-directory">×</button>
+            </div>
+            <p style="font-size: 12px; color: #666; margin: 8px 0; font-style: italic;">
+                (点击对应内容可直接打开)
+            </p>
+            <ul>
+                <li><a href="二级网页/Linux.pdf" target="_blank" class="link" style="color: rgb(135, 206, 250);">Linux</a></li>
+                <li><a href="二级网页/ARM期末考试.pdf" target="_blank" class="link" style="color: rgb(135, 206, 250);">ARM</a></li>
+                <li><a href="二级网页/Python.pdf" target="_blank" class="link" style="color: rgb(135, 206, 250);">Python</a></li>
+                <li><a href="二级网页/数据结构.pdf" target="_blank" class="link" style="color: rgb(135, 206, 250);">数据结构</a></li>
+            </ul>
+        </div>
+        <div class="card-container">
+            <div class="card" data-aos="fade-up" data-aos-delay="100" id="Linux">
+                <h3>Linux</h3>
+                <p style="line-height: 1.5;">考试时间: 2025-01-09 10:10~12:00;</p>
+                <p style="line-height: 1.5;">考试地点: 9302(多媒体);</p>
+                <p style="line-height: 1.5;">
+                    <a href="纯网页/Linux.html" target="_blank" class="link">点击查看Linux期末重点</a>
+                </p>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200" id="ARM">
+                <h3>ARM</h3>
+                <p style="line-height: 1.5;">考试时间: 2025-01-08 14:00~15:50;</p>
+                <p style="line-height: 1.5;">考试地点: 综合实验楼M306;</p>
+                <a href="纯网页/ARM.html" target="_blank" class="link">
+                    <p style="line-height: 1.5;">点击参看ARM期末总结</p>
+                </a>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="300" id="Python">
+                <h3>Python</h3>
+                <p style="line-height: 1.5;">考试时间: 2025-01-09 08:00~09:50;</p>
+                <p style="line-height: 1.5;">考试地点: 综合实验楼M306;</p>
+                <a href="纯网页/Python.html" target="_blank" class="link">
+                    <p style="line-height: 1.5;">点击参看Python期末总结</p>
+                </a>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="400" id="数据结构">
+                <h3>数据结构</h3>
+                <p style="line-height: 1.5;">考试时间: 2025-01-06 10:10~12:00;</p>
+                <p style="line-height: 1.5;">考试地点: 9304(多媒体);</p>
+                <a href="纯网页/数据结构.html" target="_blank" class="link">
+                    <p style="line-height: 1.5;">点击参看数据结构期末总结</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>电话:0530-888888888888888</p>
+                <p>传真:0530-888888888888888</p>
+                <p>邮箱：3308650195@qq.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>学校地址</h3>
+                <p>山东菏泽市牡丹区</p>
+                <p>邮政编码:274015</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速连接</h3>
+                <p><a href="https://www.hezeu.edu.cn/" target="_blank" style="color: white; text-decoration: none;">学校官网</a></p>
+                <p><a href="https://chat.openai.com" target="_blank" style="color: white; text-decoration: none;">ChatGPT</a></p>
+                <p><a href="https://222.206.176.102/jsxsd" target="_blank" style="color: white; text-decoration: none;">教务处</a></p>
+                <p><a href="http://222.206.187.250/home/web/f_second" target="_blank" style="color: white; text-decoration: none;">图书馆</a></p>
+            </div>
+            <div class="footer-section qrcode-section">
+                <h3>微信联系</h3>
+                <img src="images/qrcode.png" alt="微二维码" class="qrcode">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 菏泽学院 计算机学院</p>
+            <p style="margin-top: 3px; font-size: 12px; color: rgba(255,255,255,0.7);">
+                2023物联网工程
+            </p>
+        </div>
+    </footer>
+
+    <button id="scroll-top" class="scroll-btn" title="回到顶部"></button>
+    <button id="scroll-bottom" class="scroll-btn" title="滑到底部"></button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            offset: 100,
+            once: true,
+            easing: 'ease-in-out',
+            delay: 100
+        });
+
+        const scrollTopBtn = document.getElementById('scroll-top');
+        const scrollBottomBtn = document.getElementById('scroll-bottom');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.opacity = '0';
+                scrollTopBtn.style.display = 'flex';
+                setTimeout(() => {
+                    scrollTopBtn.style.opacity = '1';
+                }, 10);
+            } else {
+                scrollTopBtn.style.opacity = '0';
+                setTimeout(() => {
+                    scrollTopBtn.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        scrollTopBtn.style.display = 'none';
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        scrollBottomBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+
+        // 处理点击
+        document.getElementById('backToTop').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 处理关于我们点击
+        document.getElementById('aboutUs').addEventListener('click', function(e) {
+            e.preventDefault();
+            const footer = document.getElementById('footer');
+            if (footer) {
+                footer.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // 处理其他导航链接点击
+        document.querySelectorAll('.menu a:not(#backToTop):not(#aboutUs)').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('http')) {
+                    return;
+                }
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.querySelector('.slider-track');
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            let currentSlide = 0;
+            let isTransitioning = false;
+            let autoplayInterval = null;
+
+            function goToSlide(index) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                // 处理循环
+                if (index >= slides.length) {
+                    index = 0;
+                } else if (index < 0) {
+                    index = slides.length - 1;
+                }
+
+                currentSlide = index;
+
+                // 添加过渡效果
+                track.style.transition = 'transform 0.8s ease';
+                track.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+
+                // 更新圆点状态
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+
+                // 过渡结束后重置状态
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 800);
+            }
+
+            function startAutoplay() {
+                if (autoplayInterval) clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(() => {
+                    goToSlide(currentSlide + 1);
+                }, 4000);
+            }
+
+            // 初始自动播放
+            startAutoplay();
+
+            // 按钮点击事件
+            prevBtn.addEventListener('click', () => {
+                if (isTransitioning) return;
+                goToSlide(currentSlide - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (isTransitioning) return;
+                goToSlide(currentSlide + 1);
+            });
+
+            // 圆点点击事件
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    if (isTransitioning || currentSlide === index) return;
+                    goToSlide(index);
+                });
+            });
+        });
+
+        // 添加图片预载功能
+        function preloadImages() {
+            const images = [
+                'images/innovation.jpg',
+                'images/ARM2.jpg',
+                'images/code.png',
+                'images/culture2.jpg',
+                'images/culture3.jpg',
+                'images/activity1.jpg',
+                'images/activity2.jpg',
+                'images/activity3.jpg',
+                'images/datastructure.jpg',
+                'images/arm.jpg',
+                'images/python.jpg'
+            ];
+            
+            images.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
+        
+        // 页面载完成后预加图片
+        window.addEventListener('load', preloadImages);
+
+        // 添加页面加载进度条
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+
+        // 添加导航栏滚动效果
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.style.background = 'linear-gradient(180deg, rgba(255, 228, 225, 0.95) 0%, rgba(176, 224, 230, 0.9) 100%)';
+                nav.style.boxShadow = '0 2px 15px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.background = 'linear-gradient(180deg, rgba(255, 228, 225, 0.9) 0%, rgba(176, 224, 230, 0.7) 100%)';
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // 在DOMContentLoaded事件中添加卡片淡入效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible'); // 添加可见类
+                }, index * 200); // 每个卡片延迟200ms显示
+            });
+        });
+
+        // 检测设备类型藏导航栏
+        function hideNavOnMobile() {
+            if (window.innerWidth <= 768) {
+                document.querySelector('nav').style.display = 'none'; // 隐藏导航栏
+            } else {
+                document.querySelector('nav').style.display = 'flex'; // 显示导航栏
+            }
+        }
+
+        // 页面加载和窗口大小变化时调用
+        window.addEventListener('load', hideNavOnMobile);
+        window.addEventListener('resize', hideNavOnMobile);
+
+        document.getElementById('close-directory').addEventListener('click', function() {
+            document.getElementById('directory').style.display = 'none'; // 点击叉号后隐藏目录
+        });
+
+        // 悬浮窗关闭功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingWindow = document.getElementById('floatingWindow');
+            const closeBtn = document.getElementById('closeFloatingWindow');
+            
+            closeBtn.addEventListener('click', function() {
+                floatingWindow.style.display = 'none';  // 直接修改display属性
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 二个悬浮窗的关闭功能
+            const floatingWindow2 = document.getElementById('floatingWindow2');
+            const closeBtn2 = document.getElementById('closeFloatingWindow2');
+            
+            closeBtn2.addEventListener('click', function() {
+                floatingWindow2.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 第三个悬浮窗的关闭功能
+            const floatingWindow3 = document.getElementById('floatingWindow3');
+            const closeBtn3 = document.getElementById('closeFloatingWindow3');
+            
+            closeBtn3.addEventListener('click', function() {
+                floatingWindow3.style.display = 'none';
+            });
+        });
+
+        // 添加第四个悬浮窗的关闭功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingWindow4 = document.getElementById('floatingWindow4');
+            const closeBtn4 = document.getElementById('closeFloatingWindow4');
+            
+            closeBtn4.addEventListener('click', function() {
+                floatingWindow4.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingWindow = document.getElementById('floatingWindow');
+            const floatingWindow2 = document.getElementById('floatingWindow2');
+            const floatingWindow3 = document.getElementById('floatingWindow3');
+            const heroSection = document.querySelector('.hero-section');
+
+            // 检查是否在主页区域
+            function checkHeroSection() {
+                const heroRect = heroSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // 如果hero section完全离开视口顶部，则隐藏悬浮窗
+                if (heroRect.bottom <= 0) {
+                    floatingWindow.classList.add('hidden');
+                    floatingWindow2.classList.add('hidden');
+                    floatingWindow3.classList.add('hidden');
+                } else {
+                    floatingWindow.classList.remove('hidden');
+                    floatingWindow2.classList.remove('hidden');
+                    floatingWindow3.classList.remove('hidden');
+                }
+            }
+
+            // 使��节流函数优化滚动事件处理
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        checkHeroSection();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // 初始检查
+            checkHeroSection();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingWindow = document.getElementById('floatingWindow');
+            const floatingWindow2 = document.getElementById('floatingWindow2');
+            const floatingWindow3 = document.getElementById('floatingWindow3');
+
+            // 检查页面滚动位置
+            function checkScrollPosition() {
+                // 获��页面滚动距离
+                const scrollPosition = window.scrollY || window.pageYOffset;
+                
+                // 如果页面已经滚���超过一定距离（��如100px）
+                if (scrollPosition > 100) {
+                    // 不在顶部，隐藏悬浮窗
+                    floatingWindow.classList.add('hidden');
+                    floatingWindow2.classList.add('hidden');
+                    floatingWindow3.classList.add('hidden');
+                } else {
+                    // 在顶部，显示悬浮窗
+                    floatingWindow.classList.remove('hidden');
+                    floatingWindow2.classList.remove('hidden');
+                    floatingWindow3.classList.remove('hidden');
+                }
+            }
+
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                requestAnimationFrame(checkScrollPosition);
+            });
+
+            // 初始检查
+            checkScrollPosition();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingWindows = document.querySelectorAll('.floating-window, .floating-window-2, .floating-window-3, .floating-window-4');
+            
+            // 初始化悬浮窗状态
+            floatingWindows.forEach(window => {
+                window.style.opacity = '0';
+                window.style.visibility = 'hidden';
+            });
+
+            // 延迟显示悬浮窗
+            setTimeout(() => {
+                floatingWindows.forEach((window, index) => {
+                    setTimeout(() => {
+                        window.style.visibility = 'visible';
+                        window.style.opacity = '1';
+                        window.classList.add('show');
+                    }, index * 300); // 增加延迟时间到300ms
+                });
+            }, 1000); // 页面加载1秒后开始显示
+
+            // 关闭按钮事件处理
+            floatingWindows.forEach(window => {
+                const closeBtn = window.querySelector('.close-btn');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        window.classList.add('hidden-by-close'); // 添加标记表示是通过关闭按钮隐藏的
+                        window.classList.remove('show');
+                        window.classList.add('hidden');
+                    });
+                }
+            });
+
+            // 优化的滚动检测
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (scrollTimeout) {
+                    window.cancelAnimationFrame(scrollTimeout);
+                }
+
+                scrollTimeout = window.requestAnimationFrame(() => {
+                    const scrollPosition = window.scrollY || window.pageYOffset;
+                    
+                    floatingWindows.forEach(window => {
+                        // 跳过已经通过关闭按钮隐藏的窗口
+                        if (window.classList.contains('hidden-by-close')) {
+                            return;
+                        }
+
+                        if (scrollPosition > 100) {
+                            if (!window.classList.contains('hidden')) {
+                                window.classList.remove('show');
+                                window.classList.add('hidden');
+                            }
+                        } else {
+                            if (!window.classList.contains('show')) {
+                                window.classList.remove('hidden');
+                                window.classList.add('show');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <div class="floating-window" id="floatingWindow">
+        <button class="close-btn" id="closeFloatingWindow">×</button>
+        <div class="floating-window-content">
+            学习资料里面的内容有目录，点击目录可以转到指定位置。
+        </div>
+    </div>
+
+    <div class="floating-window-2" id="floatingWindow2">
+        <button class="close-btn" id="closeFloatingWindow2">×</button>
+        <div class="floating-window-content">
+            欢迎同学一起合作开发23  物联网工程网页，期待你的加入！<br>
+            联系方式：QQ365938188
+        </div>
+    </div>
+
+    <div class="floating-window-3" id="floatingWindow3">
+        <button class="close-btn" id="closeFloatingWindow3">×</button>
+        <div class="floating-window-content">
+            页脚处学习资料的链接为网页版，内容与左侧链接内容一致。然因增设目录于网页繁杂，且存在乱码，没有设目录
+        </div>
+    </div>
+
+    <div class="floating-window-4" id="floatingWindow4">
+        <button class="close-btn" id="closeFloatingWindow4">×</button>
+        <div class="floating-window-content">
+            <span class="ad-text">广告</span>
+            <span class="rent-text">招租</span>
+        </div>
+    </div>
+</body>
+</html>
